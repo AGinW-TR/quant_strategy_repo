@@ -1,0 +1,18 @@
+# Python
+*.pyc
+__pycache__/
+venv/
+*.egg-info/
+dist/
+build/
+
+# macOS
+.DS_Store
+
+# project
+*.csv
+*.pkl
+data
+
+# ml
+catboost_info
