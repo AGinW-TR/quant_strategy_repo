@@ -28,7 +28,7 @@ class ModelTrainer:
         # data = feature_engineer.calculate_moving_averages(data)
         # data = feature_engineer.calculate_rsi(data)
         # data = feature_engineer.calculate_n_day_return(data)
-        data = feature_engineer.normalize_price(data)
+
         data = feature_engineer.get_lag(data,
                                         columns=self.config['features_to_lag'])
         data = feature_engineer.binarlizer(data,

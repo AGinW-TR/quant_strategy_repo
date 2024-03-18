@@ -69,13 +69,3 @@ def binarlizer(data, categorecal_features):
         data[col] = data[col].astype('category')
     return data
 
-
-def normalize_price(data):
-    log('normalizing price')
-    data['pct_change'] = data.groupby('Ticker')['Adj Close'].pct_change() * 100
-    data['period_max_price_pct'] = (data['period_max_price'] /
-                                    data['Adj Close'] * 100) - 100
-    data['period_min_price_pct'] = (data['period_min_price'] /
-                                    data['Adj Close'] * 100) - 100
-
-    return data

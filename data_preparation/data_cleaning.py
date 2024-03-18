@@ -56,6 +56,17 @@ def filter_by_tickers(df):
     return df 
 
 
+def normalize_price(data):
+    log('normalizing price')
+    data['pct_change'] = data.groupby('Ticker')['Adj Close'].pct_change() * 100
+    data['period_max_price_pct'] = (data['period_max_price'] /
+                                    data['Adj Close'] * 100) - 100
+    data['period_min_price_pct'] = (data['period_min_price'] /
+                                    data['Adj Close'] * 100) - 100
+
+    return data
+
+
 def drop_outliers(df, config):
     """
     Drop outliers from the input DataFrame and return the cleaned DataFrame.
@@ -150,6 +161,8 @@ if __name__ == '__main__':
 
     df_market = filter_by_tickers(df_market)
     merged_data = calculate_targets_for_all_tickers(df_market, df_eps)
+
+    merged_data = normalize_price(merged_data)
 
     merged_data = drop_outliers(merged_data, config)
     save_file(merged_data, 'data/processed_data/data_clean.csv', index=False)
