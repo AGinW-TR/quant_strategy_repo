@@ -70,29 +70,13 @@ def drop_outliers(df, config):
     log('Dropping outliers')
 
     targets = config['targets']
-    lower_bound, upper_bound = config['outlier_threshold']
+    lower_bound, upper_bound = config['target_outlier_threshold']
 
     for target in targets:
         df = df.query(f'{target} > {lower_bound} and {target} < {upper_bound}')
 
     return df
 
-
-def clean_market_data(df):
-    """
-    Clean the input DataFrame and return the cleaned DataFrame.
-
-    Args:
-        df (pandas.DataFrame): Input DataFrame.
-
-    Returns:
-        cleaned_df (pandas.DataFrame): Cleaned DataFrame.
-    """
-    log('Cleaning data')
-    df = filter_by_tickers(df)
-    df = drop_outliers(df, config)
-    return df
-    
 
 def generate_target(market_data_ticker, eps_data_ticker):
     merged_data = pd.merge(market_data_ticker,
@@ -164,9 +148,10 @@ if __name__ == '__main__':
     df_eps = read_eps_data()
     df_market = read_market_data(config)
 
-    df_market = clean_market_data(df_market)
+    df_market = filter_by_tickers(df_market)
     merged_data = calculate_targets_for_all_tickers(df_market, df_eps)
 
+    merged_data = drop_outliers(merged_data, config)
     save_file(merged_data, 'data/processed_data/data_clean.csv', index=False)
 
 
