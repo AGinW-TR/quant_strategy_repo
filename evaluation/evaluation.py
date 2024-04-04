@@ -55,17 +55,17 @@ def eval_dataset(data, targets, res, data_name):
         r2 = r2_score(y_true, y_pred)
         res.append((target, data_name, rmse, mae, mape, r2))
 
-    safe_max_price_pct = (data['Predictions_period_max_price_pct'] < data['period_max_price_pct']).mean() * 100
-    safe_min_price_pct = (data['Predictions_period_min_price_pct'] < data['period_min_price_pct'] * 0.9).mean() * 100
+    # safe_max_price_pct = (data['Predictions_period_max_price_pct'] < data['period_max_price_pct']).mean() * 100
+    # safe_min_price_pct = (data['Predictions_period_min_price_pct'] < data['period_min_price_pct'] * 0.9).mean() * 100
 
-    correct_sign_max = get_correct_sign(data, 'period_max_price_pct')
+    # correct_sign_max = get_correct_sign(data, 'period_max_price_pct')
 
-    print('on data:', data_name)
-    print(f"\tCorrect max price sign pct: {correct_sign_max:.04}%")
-    print(f"\tSafe max price pct: {safe_max_price_pct:.04}%")
-    print(f"\tSafe min price pct: {safe_min_price_pct:.04}%")
+    # print('on data:', data_name)
+    # print(f"\tCorrect max price sign pct: {correct_sign_max:.04}%")
+    # print(f"\tSafe max price pct: {safe_max_price_pct:.04}%")
+    # print(f"\tSafe min price pct: {safe_min_price_pct:.04}%")
 
-    threshold_analysis(data, 'period_max_price_pct', range(0, 100, 10))
+    threshold_analysis(data, 'period_max_price_pct', range(5, 30, 5))
 
     if data_name == 'Test':
         print('\n\ncomments:')
@@ -93,8 +93,7 @@ def evaluate_predictions(data, config):
 
 def main():
     config = load_config()
-    predictions_file = f"data/experiment/20240317/data_with_predictions.pkl"
-    # predictions_file = f"data/experiment/{today()}/data_with_predictions.pkl"
+    predictions_file = f"data/experiment/{today()}/data_with_predictions.pkl"
 
     data = load_file(predictions_file)
     evaluate_predictions(data, config)
@@ -102,4 +101,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
